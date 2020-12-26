@@ -52,7 +52,7 @@
       {"name":"ana.face.js","url":"ana.js"},
       {"name":"digi.face.js","url":"digi.js"},
       {"name":"timdat.face.js","url":"timdat.js"},
-      {"name":"multiclock.img","url":"multiclock-icon.js","evaluate":true}
+      {"name":"multiclockopt.img","url":"multiclock-icon.js","evaluate":true}
     ]
   }
 ]
