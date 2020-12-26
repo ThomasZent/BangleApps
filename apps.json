@@ -48,6 +48,7 @@
     "allow_emulator": false,
     "storage": [
       {"name":"multiclockopt.app.js","url":"clock.js"},
+      {"name":"multiclockops.settings.js","url":"settings.js"},
       {"name":"ana.face.js","url":"ana.js"},
       {"name":"digi.face.js","url":"digi.js"},
       {"name":"timdat.face.js","url":"timdat.js"},
