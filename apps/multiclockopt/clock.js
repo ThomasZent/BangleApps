@@ -1,7 +1,7 @@
 var FACES = [];
 const settingName = 'multiclock.json';
 const Storage = require("Storage");
-var settings = Storage.readJSON(filename,1) || {
+var settings = Storage.readJSON(settingName,1) || {
   iface: 0
 }
 var iface = settings.iface;
