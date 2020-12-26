@@ -11,5 +11,47 @@
       {"name":".bootcde","url":"bootloader.js"}
     ],
     "sortorder" : -10
+  },
+  { "id": "settingnowid",
+    "name": "Settings",
+    "icon": "settings.png",
+    "version": "0.23",
+    "description": "A menu for setting up Bangle.js",
+    "tags": "tool,system",
+    "readme": "README.md",
+    "storage": [
+      {"name":"settingnowid.app.js","url":"settings.js"},
+      {"name":"settingnowid.boot.js","url":"boot.js"},
+      {"name":"settingnowid.img","url":"settings-icon.js","evaluate":true}
+    ],
+    "sortorder" : -2
+  },
+  { "id": "widrammin",
+    "name": "RAM Widget",
+    "icon": "widget.png",
+    "version": "0.02",
+    "description": "Display your Bangle's available RAM percentage in a widget",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widrammin.wid.js","url":"widget.js"}
+    ]
+  },
+  { "id": "multiclockopt",
+    "name": "Multi Clock",
+    "icon": "multiclock.png",
+    "version": "0.08",
+    "description": "Clock with multiple faces - Analogue, Digital, Time-Date.\n Switch between faces with BTN1 & BTN3",
+    "readme": "README.md",
+    "tags": "clock",
+    "type": "clock",
+    "allow_emulator": false,
+    "storage": [
+      {"name":"multiclockopt.app.js","url":"clock.js"},
+      {"name":"ana.face.js","url":"ana.js"},
+      {"name":"digi.face.js","url":"digi.js"},
+      {"name":"timdat.face.js","url":"timdat.js"},
+      {"name":"multiclock.img","url":"multiclock-icon.js","evaluate":true}
+    ]
   }
 ]
