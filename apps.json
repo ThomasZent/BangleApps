@@ -13,10 +13,10 @@
     "sortorder" : -10
   },
   { "id": "settingnowid",
-    "name": "Settings (No Widgets)",
+    "name": "Settings",
     "icon": "settings.png",
     "version": "0.23",
-    "description": "A menu for setting up Bangle.js",
+    "description": "A menu for setting up Bangle.js, without widgets",
     "tags": "tool,system",
     "readme": "README.md",
     "storage": [
@@ -38,10 +38,10 @@
     ]
   },
   { "id": "multiclockopt",
-    "name": "Multi Clock (With Options)",
+    "name": "Multi Clock",
     "icon": "multiclock.png",
     "version": "0.08",
-    "description": "Clock with multiple faces - Analogue, Digital, Time-Date.\n Switch between faces with BTN1 & BTN3",
+    "description": "Clock with multiple faces - Analogue, Digital, Time-Date. Remembers preferred face.\n Switch between faces with BTN1 & BTN3",
     "readme": "README.md",
     "tags": "clock",
     "type": "clock",
