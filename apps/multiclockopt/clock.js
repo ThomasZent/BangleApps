@@ -6,7 +6,11 @@ var settings = Storage.readJSON(settingName,1) || {
 }
 var iface = settings.iface;
 var faceList = Storage.list(/\.face\.js$/);
-if (iface > faceList.length - 1) iface = 0;
+if (iface > faceList.length - 1) {
+  iface = 0;
+} else if (iface < 0) {
+  iface = 0;
+}
 faceList.forEach(face=>FACES.push(eval(require("Storage").read(face))));
 var face = FACES[iface]();
 var intervalRefSec;
