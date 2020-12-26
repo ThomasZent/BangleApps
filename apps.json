@@ -39,6 +39,7 @@
   },
   { "id": "multiclockopt",
     "name": "Multi Clock",
+    "shortName": "Multi Clock",
     "icon": "multiclock.png",
     "version": "0.08",
     "description": "Clock with multiple faces - Analogue, Digital, Time-Date. Remembers preferred face.\n Switch between faces with BTN1 & BTN3",
@@ -48,7 +49,7 @@
     "allow_emulator": false,
     "storage": [
       {"name":"multiclockopt.app.js","url":"clock.js"},
-      {"name":"multiclockops.settings.js","url":"settings.js"},
+      {"name":"multiclockopt.settings.js","url":"settings.js"},
       {"name":"ana.face.js","url":"ana.js"},
       {"name":"digi.face.js","url":"digi.js"},
       {"name":"timdat.face.js","url":"timdat.js"},
