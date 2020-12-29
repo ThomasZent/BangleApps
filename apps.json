@@ -37,6 +37,14 @@
       {"name":"widrammin.wid.js","url":"widget.js"}
     ]
   },
+  { "id": "tzpedom",
+    "name": "Pedometer Widget",
+    "icon": "widget.png",
+    "version": "0.01",
+    "storage": [
+      {"name":"tzpedom.wid.js","url":"widget.js"}
+    ]
+  },
   { "id": "multiclockopt",
     "name": "Multi Clock",
     "shortName": "Multi Clock",
