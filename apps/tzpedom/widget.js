@@ -17,15 +17,16 @@
       'sens' : 100,
       'goal' : 10000
       //'stride' : 75
-    }
+    };
 
     if (!settings) loadSettings();
     return (key in settings) ? settings[key] : DEFAULTS[key];
   }
 
   function setSens(s) {
-    let X=(8192 - s) ** 2;
-    let Y=(8192 + s);
+    function sqr(x) {return x * x;}
+    let X=sqr(8192 - s);
+    let Y=sqr(8192 + s);
     Bangle.setOptions({stepCounterThresholdLow: X, stepCounterThresholdHigh: Y});
   }
 
@@ -78,6 +79,11 @@
     settings = null;
   });
 
+  Bangle.on('lcdPower', function(on) {
+    if (on) WIDGETS["tzpedom"].draw();
+  });
+
   timerAct = setInterval(resetAct, setting('actres'));
   settings = null;
+  WIDGETS["tzpedom"]={area:"tl",width:width,draw:draw};
 })
