@@ -41,6 +41,9 @@
     "name": "Pedometer Widget",
     "icon": "widget.png",
     "version": "0.01",
+    "description": "placeholder",
+    "tags": "widget",
+    "type": "widget",
     "storage": [
       {"name":"tzpedom.wid.js","url":"widget.js"}
     ]
