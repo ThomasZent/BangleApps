@@ -58,6 +58,7 @@
 
   function draw() {
     let height = 23;
+    let width = 46;
 
     g.reset();
     g.clearRect(this.x, this.y, this.x + width, this.y + height);
@@ -70,7 +71,7 @@
 
     g.setFont("6x8", 1);
     g.setColor(0xFFFF);
-    g.drawString(toKM(stepsCounted) + "km", this.x + 1, this.y + 14);
+    g.drawString(toKM(stepsCounted).toFixed(3) + "km", this.x + 1, this.y + 14);
 
     length = (stepsCount / setting('goal')) * width;
     if (length > width) length = width;
