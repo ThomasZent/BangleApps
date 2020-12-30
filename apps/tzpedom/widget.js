@@ -58,7 +58,7 @@
   }
 
   function store() {
-    let now = Date.now();
+    let now = new Date();
     const FILENAME = "tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + ".steps.json";
     
     let data = {
@@ -69,7 +69,7 @@
   }
 
   function read() {
-    let now = Date.now();
+    let now = new Date();
     const FILENAME = "tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + ".steps.json";
     
     let data = require("Storage").readJSON(FILENAME, 1);
