@@ -2,6 +2,10 @@
   let timerAct;
   let timerStore;
   let settings;
+  let active = 0;
+  let lastStep = Date.now();
+  let steps = 0;
+  let stepsCount = 0;
 
   function loadSettings() {
     const SETTINGS_FILE = "tzpedom.settings.json";
@@ -16,7 +20,7 @@
       'actres' : 10000,
       'sens' : 100,
       'goal' : 10000
-      //'stride' : 75
+      'stride' : 126
     };
 
     if (!settings) loadSettings();
@@ -30,13 +34,28 @@
     Bangle.setOptions({stepCounterThresholdLow: X, stepCounterThresholdHigh: Y});
   }
 
-  let active = 0;
   function resetAct() {
     active = 0;
     steps = 0;
     if (Bangle.isLCDOn()) WIDGETS["tzpedom"].draw();
   }
   
+  function formatStep(steps) {
+    if (steps < 1000) {
+      return steps;
+    }
+    
+    if (steps < 10000) {
+      return Math.trunc(steps / 1000) + "." + Math.toString(steps % 1000).substring(0,1) + "k";
+    }
+
+    return Math.floor(steps / 1000) + "k";
+  }
+
+  function toKM(steps) {
+    return steps * setting('stride') / 100000;
+  }
+
   function draw() {
     let height = 23;
 
@@ -46,15 +65,26 @@
     if (active === 1) g.setColor(0x07E0);
     else g.setColor(0xFFFF);
     g.setFont("6x8", 2);
+    g.drawString(formatSteps(stepsCount), this.x+1, this.y);
 
-    g.drawString(stepsCount, this.x+1, this.y);
 
-    settings = 0;
+    g.setFont("6x8", 1);
+    g.setColor(0xFFFF);
+    g.drawString(toKM(stepsCounted) + "km", this.x + 1, this.y + 14);
+
+    length = (stepsCount / setting('goal')) * width;
+    if (length > width) length = width;
+    g.setColor(0x7BEF);
+    g.fillRect(this.x, this.y + height, this.x + width, this.y + height);
+    g.setColor(0xFFFF);
+    g.fillRect(this.x, this.y + height, this.x + 1, this.y + height - 1);
+    g.fillRect(this.x + width, this.y + height, this.x + width - 1, this.y + height - 1);
+    g.fillRect(this.x, this.y + height, this.x + length, this.y + height);
+
+    settings = null;
   }
 
-  let lastStep = Date.now();
-  let steps = 0;
-  let stepsCount = 0;
+  
   Bangle.on('step', (up) => {
     let timeDiff = Date.now() - lastStep;
     let lastStep = Date.now();
@@ -83,6 +113,7 @@
     if (on) WIDGETS["tzpedom"].draw();
   });
 
+  setSens(setting('sens'));
   timerAct = setInterval(resetAct, setting('actres'));
   settings = null;
   WIDGETS["tzpedom"]={area:"tl",width:width,draw:draw};
