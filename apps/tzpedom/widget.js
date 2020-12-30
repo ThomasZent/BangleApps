@@ -117,4 +117,4 @@
   timerAct = setInterval(resetAct, setting('actres'));
   settings = null;
   WIDGETS["tzpedom"]={area:"tl",width:width,draw:draw};
-})
+})();
