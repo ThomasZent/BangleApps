@@ -6,6 +6,7 @@
   let lastStep = Date.now();
   let steps = 0;
   let stepsCount = 0;
+  let width = 46;
 
   function loadSettings() {
     const SETTINGS_FILE = "tzpedom.settings.json";
@@ -15,10 +16,10 @@
   function setting(key) {
     const DEFAULTS = {
       'maxTime' : 1000,
-      'minTime' : 400,
-      'threshold' : 10,
-      'actres' : 11000,
-      'sens' : 90,
+      'minTime' : 500,
+      'threshold' : 13,
+      'actres' : 15000,
+      'sens' : 130,
       'goal' : 10000,
       'stride' : 126
     };
@@ -56,9 +57,28 @@
     return steps * setting('stride') / 100000;
   }
 
+  function store() {
+    let now = Date.now();
+    const FILENAME = "tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + ".steps.json";
+    
+    let data = {
+      steps: stepsCount
+    }
+
+    require("Storage").write(FILENAME, data);
+  }
+
+  function read() {
+    let now = Date.now();
+    const FILENAME = "tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + ".steps.json";
+    
+    let data = require("Storage").readJSON(FILENAME, 1);
+
+    if (data) stepsCount = data.steps;
+  }
+
   function draw() {
     let height = 23;
-    let width = 46;
 
     g.reset();
     g.clearRect(this.x, this.y, this.x + width, this.y + height);
@@ -66,12 +86,11 @@
     if (active === 1) g.setColor(0x07E0);
     else g.setColor(0xFFFF);
     g.setFont("6x8", 2);
-    g.drawString(formatSteps(stepsCount), this.x+1, this.y);
-
+    g.drawString(formatStep(stepsCount), this.x+1, this.y);
 
     g.setFont("6x8", 1);
     g.setColor(0xFFFF);
-    g.drawString(toKM(stepsCounted).toFixed(3) + "km", this.x + 1, this.y + 14);
+    g.drawString(toKM(stepsCount).toFixed(3) + "km", this.x + 1, this.y + 14);
 
     length = (stepsCount / setting('goal')) * width;
     if (length > width) length = width;
@@ -85,6 +104,7 @@
     settings = null;
   }
 
+  E.on('kill', store);
   
   Bangle.on('step', (up) => {
     let timeDiff = Date.now() - lastStep;
@@ -107,6 +127,8 @@
 
     if (active == 1) stepsCount ++;
 
+    if (Bangle.isLCDOn()) WIDGETS["tzpedom"].draw();
+
     settings = null;
   });
 
@@ -115,7 +137,12 @@
   });
 
   setSens(setting('sens'));
+
+  read(); 
+
   timerAct = setInterval(resetAct, setting('actres'));
+  timerStore = setInterval(store, 300000);
+
   settings = null;
   WIDGETS["tzpedom"]={area:"tl",width:width,draw:draw};
 })();
