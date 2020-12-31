@@ -10,7 +10,7 @@
     'goal' : 10000,
     'length' : 63,
     'buzz' : 0
-  }
+  };
 
   const storage = require("Storage");
   const saved = storage.readJSON(SETTINGS_FILE, 1) || {};
@@ -21,9 +21,9 @@
 
   function save(key) {
     return function(val) {
-      s[key] = value;
+      s[key] = val;
       storage.write(SETTINGS_FILE, s);
-    }
+    };
   }
 
   const menu = {
@@ -79,13 +79,14 @@
     },
     'Buzz': {
       value: s.buzz,
-      min: 0,
-      max: 2,
-      step: 1,
-      onchange: save('buzz')
+      format: () => (s.buzz ? 'On' : 'Off'),
+      onchange: () => {
+        s.buzz = !s.buzz;
+        save('buzz');
+      },
     },
     '< Back': back 
-    };
+  };
     
     E.showMenu(menu);
 });
