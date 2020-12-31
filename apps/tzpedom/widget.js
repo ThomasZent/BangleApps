@@ -22,7 +22,8 @@
       'actres' : 20000,
       'sens' : 100,
       'goal' : 10000,
-      'stride' : 126
+      'length' : 126,
+      'buzz' : 0
     };
 
     if (!settings) loadSettings();
@@ -49,14 +50,16 @@
     
     if (steps < 10000) {
       let dec = steps / 1000;
-      return Math.toString(steps / 1000).substring(0,2) + "k";
+
+      if (count % 1000 < 100) return dec.toString.substring(0,1) + "k";
+      else return dec.toString().substring(0,3) + "k";
     }
 
     return Math.floor(steps / 1000) + "k";
   }
 
   function toKM(steps) {
-    return steps * setting('stride') / 100000;
+    return steps * setting('length') / 100000;
   }
 
   function store() {
@@ -125,6 +128,7 @@
     if (timeDiff > setting('maxTime')) return;
     if (timeDiff < setting('minTime')) return;
 
+    if (setting('buzz')) Bangle.buzz();
     steps++;
 
     if (steps > setting('threshold')) {
