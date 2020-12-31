@@ -45,7 +45,8 @@
     "tags": "widget",
     "type": "widget",
     "storage": [
-      {"name":"tzpedom.wid.js","url":"widget.js"}
+      {"name":"tzpedom.wid.js","url":"widget.js"},
+      {"name":"tzpedom.settings.js","url":"settings.js"}
     ]
   },
   { "id": "multiclockopt",
