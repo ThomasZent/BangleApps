@@ -71,7 +71,7 @@
       onchange: save('goal')
     },
     'Step length (cm)': {
-      value: s.stride,
+      value: s.length,
       min: 1,
       max: 150,
       step: 1,
@@ -80,7 +80,7 @@
     'Buzz': {
       value: s.buzz,
       min: 0,
-      max: 1,
+      max: 2,
       step: 1,
       onchange: save('buzz')
     },
