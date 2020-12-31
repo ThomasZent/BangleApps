@@ -43,19 +43,19 @@
     if (Bangle.isLCDOn()) WIDGETS["tzpedom"].draw();
   }
   
-  function formatStep(steps) {
-    if (steps < 1000) {
-      return steps;
+  function formatStep(count) {
+    if (count < 1000) {
+      return count;
     }
     
-    if (steps < 10000) {
-      let dec = steps / 1000;
+    if (count < 10000) {
+      let dec = count / 1000;
 
       if (count % 1000 < 100) return dec.toString.substring(0,1) + "k";
       else return dec.toString().substring(0,3) + "k";
     }
 
-    return Math.floor(steps / 1000) + "k";
+    return Math.floor(count / 1000) + "k";
   }
 
   function toKM(steps) {
@@ -64,17 +64,16 @@
 
   function store() {
     let now = new Date();
-    const FILENAME = "tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + ".steps.json";
     
     let data = {
       steps: stepsCount
-    }
+    };
 
     if (lastWrite && now.getDate() !== lastWrite) {
-      require("Storage").write("tzpedom" + now.getFullYear() + (now.getMonth() + 1) + lastWrite + "steps.json", data);
+      require("Storage").write("tzpedom" + now.getFullYear() + (now.getMonth() + 1) + lastWrite + ".steps.json", data);
       stepsCount = 0;
     } else {
-      require("Storage").write("tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + "steps.json", data);
+      require("Storage").write("tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + ".steps.json", data);
     }
 
     lastWrite = now.getDate();
@@ -85,7 +84,7 @@
     const FILENAME = "tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + ".steps.json";
     
     let data = require("Storage").readJSON(FILENAME, 1);
-
+    
     if (data) stepsCount = data.steps;
   }
 
