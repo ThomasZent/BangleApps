@@ -1,6 +1,7 @@
 (() => { 
   let timerAct;
   let timerStore;
+  let lastWrite;
   let settings;
   let active = 0;
   let lastStep = Date.now();
@@ -15,11 +16,11 @@
 
   function setting(key) {
     const DEFAULTS = {
-      'maxTime' : 1000,
-      'minTime' : 500,
-      'threshold' : 13,
-      'actres' : 15000,
-      'sens' : 130,
+      'maxTime' : 1100,
+      'minTime' : 400,
+      'threshold' : 15,
+      'actres' : 20000,
+      'sens' : 100,
       'goal' : 10000,
       'stride' : 126
     };
@@ -47,7 +48,8 @@
     }
     
     if (steps < 10000) {
-      return Math.trunc(steps / 1000) + "." + Math.toString(steps % 1000).substring(0,1) + "k";
+      let dec = steps / 1000;
+      return Math.toString(steps / 1000).substring(0,2) + "k";
     }
 
     return Math.floor(steps / 1000) + "k";
@@ -65,7 +67,14 @@
       steps: stepsCount
     }
 
-    require("Storage").write(FILENAME, data);
+    if (lastWrite && now.getDate() !== lastWrite) {
+      require("Storage").write("tzpedom" + now.getFullYear() + (now.getMonth() + 1) + lastWrite + "steps.json", data);
+      stepsCount = 0;
+    } else {
+      require("Storage").write("tzpedom" + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + "steps.json", data);
+    }
+
+    lastWrite = now.getDate();
   }
 
   function read() {
@@ -93,12 +102,15 @@
     g.drawString(toKM(stepsCount).toFixed(3) + "km", this.x + 1, this.y + 14);
 
     length = (stepsCount / setting('goal')) * width;
-    if (length > width) length = width;
     g.setColor(0x7BEF);
     g.fillRect(this.x, this.y + height, this.x + width, this.y + height);
     g.setColor(0xFFFF);
     g.fillRect(this.x, this.y + height, this.x + 1, this.y + height - 1);
     g.fillRect(this.x + width, this.y + height, this.x + width - 1, this.y + height - 1);
+    if (length >= width) {
+      length = width;
+      g.setColor(0x07E0);
+    }
     g.fillRect(this.x, this.y + height, this.x + length, this.y + height);
 
     settings = null;
@@ -110,8 +122,8 @@
     let timeDiff = Date.now() - lastStep;
     lastStep = Date.now();
     
-    if (timeDiff >= setting('maxTime')) return;
-    if (timeDiff <= setting('minTime')) return;
+    if (timeDiff > setting('maxTime')) return;
+    if (timeDiff < setting('minTime')) return;
 
     steps++;
 
@@ -125,7 +137,7 @@
       timerAct = setInterval(resetAct, setting('actres'));
     }
 
-    if (active == 1) stepsCount ++;
+    if (active === 1) stepsCount ++;
 
     if (Bangle.isLCDOn()) WIDGETS["tzpedom"].draw();
 
