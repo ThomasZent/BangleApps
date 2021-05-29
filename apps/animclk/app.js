@@ -17,6 +17,7 @@ var IX = 80, IY = 10, IBPP = 1;
 var IW = 174, IH = 45, OY = 24;
 var inf = {align:0};
 var bgoptions;
+var secondInterval;
 
 require("Font7x11Numeric7Seg").add(Graphics);
 var cg = Graphics.createArrayBuffer(IW,IH,IBPP,{msb:true});
@@ -82,25 +83,38 @@ function draw() {
   g.drawImage({width:240,height:img2height,bpp:8,palette:pal,buffer:img2},0,OY+img1height);
 }
 
-if (g.drawImages) {
-  // draw clock itself and do it every second
-  draw();
-  var secondInterval = setInterval(draw,100);
-  // load widgets
-  Bangle.loadWidgets();
-  Bangle.drawWidgets();
-  // Stop when LCD goes off
-  Bangle.on('lcdPower',on=>{
-    if (secondInterval) clearInterval(secondInterval);
-    secondInterval = undefined;
-    if (on) {
-      secondInterval = setInterval(draw,100);
-      lastTime="";
-      draw();
-    }
-  });
-} else {
-  E.showMessage("Please update\nBangle.js firmware\nto use this clock","animclk");
+var SCREENACCESS = {
+  withApp: true,
+  request: function() {
+    this.withApp = false;
+    clearInterval(secondInterval);
+    clearWatch();
+  },
+  release: function() {
+    this.withApp = true;
+    setWatch(Bangle.showLauncher, BTN2, { repeat: false, edge: "falling" });
+    secondInverval = setInterval(draw,100);
+    lastTime = "";
+    draw();
+  }
 }
+
+draw();
+secondInterval = setInterval(draw,100);
+// load widgets
+Bangle.loadWidgets();
+Bangle.drawWidgets();
+// Stop when LCD goes off
+Bangle.on('lcdPower',on=>{
+  if (!SCREENACCESS.withApp) return;
+  if (secondInterval) clearInterval(secondInterval);
+  secondInterval = undefined;
+  if (on) {
+    secondInterval = setInterval(draw,100);
+    lastTime="";
+    draw();
+  }
+});
+
 // Show launcher when middle button pressed
 setWatch(Bangle.showLauncher, BTN2, { repeat: false, edge: "falling" });
