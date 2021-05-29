@@ -4,13 +4,22 @@ var img1height = img1.length/240;
 var img2 = require("Storage").read("animclk.pixels2");
 var img2height = img2.length/240;
 var cycle = [
-  {reverse:0,rate:1,low:32,high:47},
-  {reverse:0,rate:3,low:48,high:63},
-  {reverse:0,rate:3,low:64,high:79},
-  {reverse:0,rate:2,low:80,high:95},
-  {reverse:0,rate:1,low:96,high:103},
-  {reverse:0,rate:3,low:128,high:143},
-  {reverse:0,rate:2,low:22,high:31}
+  { reverse: 0, rate: 0, low: 1, high: 11 },
+  { reverse: 0, rate: 0, low: 6, high: 17 },
+  { reverse: 0, rate: 0, low: 86, high: 87 },
+  { reverse: 0, rate: 1842, low: 104, high: 111 },
+  { reverse: 0, rate: 1380, low: 92, high: 97 },
+  { reverse: 0, rate: 1380, low: 98, high: 103 },
+  { reverse: 0, rate: 1842, low: 112, high: 119 },
+  { reverse: 0, rate: 1842, low: 120, high: 127 },
+  { reverse: 0, rate: 1842, low: 128, high: 135 },
+  { reverse: 0, rate: 1842, low: 136, high: 143 },
+  { reverse: 0, rate: 1842, low: 144, high: 151 },
+  { reverse: 0, rate: 1842, low: 152, high: 159 },
+  { reverse: 0, rate: 1842, low: 192, high: 199 },
+  { reverse: 0, rate: 1842, low: 200, high: 207 },
+  { reverse: 0, rate: 1842, low: 208, high: 215 },
+  { reverse: 0, rate: 1842, low: 216, high: 223 }
 ];
 var is12Hour = (require("Storage").readJSON("setting.json",1)||{})["12hour"];
 var IX = 80, IY = 10, IBPP = 1;

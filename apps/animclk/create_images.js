@@ -29,7 +29,7 @@ var CanvasCycle = {
     }
 
     function getPixel(x,y) {
-      return info.pixels[(x+640-240)+((y+480-240)*640)];
+      return info.pixels[(x+640-480)+((y+480-365)*640)];
     }
 
     n = 0;
@@ -54,4 +54,4 @@ var CanvasCycle = {
 };
 
 //http://www.effectgames.com/demos/canvascycle/
-eval(require("fs").readFileSync("V29.LBM.js").toString());
+eval(require("fs").readFileSync("V16.LBM.js").toString());
