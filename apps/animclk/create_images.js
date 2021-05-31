@@ -8,6 +8,7 @@ http://www.effectgames.com/demos/canvascycle/image.php?file=V29&callback=CanvasC
 
 Finally cycles just needs adding
 */
+const FILE = "pm"
 var CanvasCycle = {
   processImage : function(info) {
     const IMG1_HEIGHT = 55;
@@ -45,13 +46,14 @@ var CanvasCycle = {
       }
     }
 
-    require("fs").writeFileSync("animclk.pixels1",img1,"binary");
-    require("fs").writeFileSync("animclk.pixels2",img2,"binary");
-    require("fs").writeFileSync("animclk.pal",pal,"binary");
+    require("fs").writeFileSync("animclk_" + FILE + ".pixels1",img1,"binary");
+    require("fs").writeFileSync("animclk_" + FILE + ".pixels2",img2,"binary");
+    require("fs").writeFileSync("animclk_" + FILE + ".pal",pal,"binary");
+    require("fs").writeFileSync("animclk_" + FILE + ".cycles",'{"cycle":' + JSON.stringify(info.cycles) + '}');
     console.log("Files written");
     console.log("Cycles", info.cycles);
   }
 };
 
 //http://www.effectgames.com/demos/canvascycle/
-eval(require("fs").readFileSync("V29.LBM.js").toString());
+eval(require("fs").readFileSync("V08PM.LBM.js").toString());

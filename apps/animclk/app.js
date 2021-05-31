@@ -1,22 +1,22 @@
-var pal = new Uint16Array(E.toArrayBuffer(E.toString(require("Storage").read("animclk.pal"))));
-var img1 = require("Storage").read("animclk.pixels1");
-var img1height = img1.length/240;
-var img2 = require("Storage").read("animclk.pixels2");
-var img2height = img2.length/240;
-var cycle = [
-  {reverse:0,rate:1,low:32,high:47},
-  {reverse:0,rate:3,low:48,high:63},
-  {reverse:0,rate:3,low:64,high:79},
-  {reverse:0,rate:2,low:80,high:95},
-  {reverse:0,rate:1,low:96,high:103},
-  {reverse:0,rate:3,low:128,high:143},
-  {reverse:0,rate:2,low:22,high:31}
-];
-var is12Hour = (require("Storage").readJSON("setting.json",1)||{})["12hour"];
+var pal, img1, img2, img1height, img2height, cycle;
+
+function loadImg(img) {
+  var Storage = require("Storage");
+  pal = new Uint16Array(E.toArrayBuffer(E.toString(Storage.read("animclk_" + img + ".pal"))));
+  img1 = Storage.read("animclk_" + img + ".pixels1");
+  img2 = Storage.read("animclk_" + img + ".pixels2");
+  img1height = img1.length/240;
+  img2height = img2.length/240;
+  cycle = Storage.readJSON("animclk_" + img + ".cycles",1).cycle;
+}
+
+var hours = Date.now.getHours();
+loadImg((hours > 7 && hours < 19) ? "am" : "pm");
+
+var is12Hour = require("Storage").readJSON("setting.json",1)["12hour"];
 var IX = 80, IY = 10, IBPP = 1;
 var IW = 174, IH = 45, OY = 24;
 var inf = {align:0};
-var bgoptions;
 var secondInterval;
 
 require("Font7x11Numeric7Seg").add(Graphics);
@@ -83,33 +83,45 @@ function draw() {
   g.drawImage({width:240,height:img2height,bpp:8,palette:pal,buffer:img2},0,OY+img1height);
 }
 
+function startDraw() {
+  g.clear();
+  g.reset();
+  draw();
+  secondInterval = setInterval(draw,100);
+  Bangle.loadWidgets();
+  Bangle.drawWidgets();
+}
+
+function stopDraw() {
+  clearInterval(secondInterval);
+  secondInterval = undefined;
+}
+
 var SCREENACCESS = {
   withApp: true,
   request: function() {
     this.withApp = false;
-    clearInterval(secondInterval);
+    stopDraw();
     clearWatch();
   },
   release: function() {
     this.withApp = true;
     setWatch(Bangle.showLauncher, BTN2, { repeat: false, edge: "falling" });
-    secondInverval = setInterval(draw,100);
     lastTime = "";
-    draw();
+    startDraw();
   }
 };
 
-draw();
-secondInterval = setInterval(draw,100);
-// load widgets
-Bangle.loadWidgets();
-Bangle.drawWidgets();
+startDraw();
+
 // Stop when LCD goes off
 Bangle.on('lcdPower',on=>{
   if (!SCREENACCESS.withApp) return;
   if (secondInterval) clearInterval(secondInterval);
   secondInterval = undefined;
   if (on) {
+    var hours = Date.now().getHours();
+    loadImg((hours > 7 && hours < 19) ? "am" : "pm");
     secondInterval = setInterval(draw,100);
     lastTime="";
     draw();
