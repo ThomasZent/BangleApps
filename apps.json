@@ -2197,9 +2197,14 @@
     "type": "clock",
     "storage": [
       {"name":"animclk.app.js","url":"app.js"},
-      {"name":"animclk.pixels1","url":"animclk.pixels1"},
-      {"name":"animclk.pixels2","url":"animclk.pixels2"},
-      {"name":"animclk.pal","url":"animclk.pal"},
+      {"name":"animclk_am.pixels1","url":"animclk_am.pixels1"},
+      {"name":"animclk_am.pixels2","url":"animclk_am.pixels2"},
+      {"name":"animclk_am.pal","url":"animclk_am.pal"},
+      {"name":"animclk_am.cycles","url":"animclk_am.cycles"},
+      {"name":"animclk_pm.pixels1","url":"animclk_pm.pixels1"},
+      {"name":"animclk_pm.pixels2","url":"animclk_pm.pixels2"},
+      {"name":"animclk_pm.pal","url":"animclk_pm.pal"},
+      {"name":"animclk_pm.cycles","url":"animclk_pm.cycles"},
       {"name":"animclk.img","url":"app-icon.js","evaluate":true}
     ]
   },

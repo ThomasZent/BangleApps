@@ -10,7 +10,7 @@ function loadImg(img) {
   cycle = Storage.readJSON("animclk_" + img + ".cycles",1).cycle;
 }
 
-var hours = Date.now.getHours();
+var hours = new Date().getHours();
 loadImg((hours > 7 && hours < 19) ? "am" : "pm");
 
 var is12Hour = require("Storage").readJSON("setting.json",1)["12hour"];
@@ -120,7 +120,7 @@ Bangle.on('lcdPower',on=>{
   if (secondInterval) clearInterval(secondInterval);
   secondInterval = undefined;
   if (on) {
-    var hours = Date.now().getHours();
+    var hours = new Date().getHours();
     loadImg((hours > 7 && hours < 19) ? "am" : "pm");
     secondInterval = setInterval(draw,100);
     lastTime="";
